@@ -1,26 +1,54 @@
-import { lusitana } from "@/app/ui/fonts";
-import Link from "next/link";
+import StateCard from "@/components/stateCard";
+import { State, StateBase } from "./types/state";
 
-export default function Home() {
+const SOCRATA_APP_TOKEN = process.env.SOCRATA_APP_TOKEN || "";
+
+function isState(value: unknown): value is State {
+  if (typeof value !== "object" || value === null) return false;
+
+  const candidate = value as Record<string, unknown>;
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen flex-col p-6">
-        <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-          <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
-            <p
-              className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
-            >
-              <strong>Welcome to State Health Explorer.</strong>
-            </p>
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
-            >
-              <span>Go to Dashboard</span>
-            </Link>
-          </div>
-        </div>
-      </main>
+    typeof candidate.stateabbr === "string" &&
+    typeof candidate.statedesc === "string" &&
+    typeof candidate.locationname === "string" &&
+    typeof candidate.category === "string" &&
+    typeof candidate.short_question_text === "string" &&
+    typeof candidate.data_value === "string" &&
+    typeof candidate.totalpopulation === "string"
+  );
+}
+
+export default async function Page() {
+  const res = await fetch(
+    "https://chronicdata.cdc.gov/resource/swc5-untb.json?$limit=200",
+    { headers: { "X-App-Token": SOCRATA_APP_TOKEN } },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch states: ${res.status} ${res.statusText}`);
+  }
+
+  const raw: unknown = await res.json();
+  const data: State[] = Array.isArray(raw) ? raw.filter(isState) : [];
+  const states: StateBase[] = Array.from(
+    new Map(
+      data.map((s) => [
+        s.stateabbr,
+        { stateabbr: s.stateabbr, statedesc: s.statedesc },
+      ]),
+    ).values(),
+  );
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+        gap: 16,
+      }}
+    >
+      {states.map((s) => (
+        <StateCard key={s.stateabbr} state={s} />
+      ))}
     </div>
   );
 }
