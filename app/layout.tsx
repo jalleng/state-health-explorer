@@ -1,6 +1,7 @@
 import "@/app/ui/global.css";
 import { inter } from "@/app/ui/fonts";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: {
@@ -34,9 +35,11 @@ export default function RootLayout({
               gap: 12,
             }}
           >
-            <div style={{ color: "#fff", fontWeight: 800, fontSize: 18 }}>
-              State Health Explorer
-            </div>
+            <Link href="/" style={{ textDecoration: "none" }}>
+              <div style={{ color: "#fff", fontWeight: 800, fontSize: 18 }}>
+                State Health Explorer
+              </div>
+            </Link>
             <div
               style={{
                 color: "rgba(255,255,255,0.5)",
