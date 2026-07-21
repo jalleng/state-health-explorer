@@ -22,6 +22,12 @@ export default function HealthBarChart({ data }: { data: State[] }) {
 
   const [selectedCounty, setSelectedCounty] = useState("All Counties");
 
+  const lowerText = useMemo(() => {
+    return selectedCounty === "All Counties"
+      ? "Statewide average"
+      : `${selectedCounty} County`;
+  }, [selectedCounty]);
+
   const chartData = useMemo(() => {
     const records =
       selectedCounty === "All Counties"
@@ -30,6 +36,8 @@ export default function HealthBarChart({ data }: { data: State[] }) {
 
     return aggregateByMeasure(records);
   }, [data, selectedCounty]);
+
+  const valueLabel = "% crude prevalence";
 
   return (
     <div>
@@ -78,7 +86,11 @@ export default function HealthBarChart({ data }: { data: State[] }) {
 
           <Tooltip
             content={(props) => (
-              <CustomTooltip {...props} selectedCounty={selectedCounty} />
+              <CustomTooltip
+                {...props}
+                bottomText={lowerText}
+                valueLabel={valueLabel}
+              />
             )}
           />
 
