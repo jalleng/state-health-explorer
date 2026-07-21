@@ -21,11 +21,6 @@ export interface State extends StateBase {
   totalpopulation: number;
 }
 
-export interface ChartRow {
-  measure: string;
-  value: number;
-}
-
 export type StateAbbreviations =
   | "AL"
   | "AK"
