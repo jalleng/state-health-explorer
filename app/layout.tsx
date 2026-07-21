@@ -19,40 +19,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        <div
-          style={{
-            minHeight: "100vh",
-            background: "#f4f6f9",
-            fontFamily: "'Segoe UI', Arial, sans-serif",
-          }}
-        >
-          <nav
-            style={{
-              background: "#1a3a5c",
-              padding: "14px 32px",
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-            }}
-          >
-            <Link href="/" style={{ textDecoration: "none" }}>
-              <div style={{ color: "#fff", fontWeight: 800, fontSize: 18 }}>
+        <div className="min-h-screen bg-[#f4f6f9]">
+          <nav className="bg-[#1a3a5c] px-8 py-[14px] flex items-center gap-3">
+            <Link href="/" className="no-underline">
+              <div className="text-white font-extrabold text-[18px]">
                 State Health Explorer
               </div>
             </Link>
-            <div
-              style={{
-                color: "rgba(255,255,255,0.5)",
-                fontSize: 13,
-                marginLeft: 8,
-              }}
-            >
+            <div className="text-white/50 text-[13px] ml-2">
               CDC PLACES Data 2023
             </div>
+            <div className="ml-auto text-white/40 text-[13px] italic">
+              A Jalleng App
+            </div>
           </nav>
-          <main
-            style={{ maxWidth: 800, margin: "0 auto", padding: "32px 16px" }}
-          >
+          <main className="max-w-[800px] mx-auto px-4 py-8">
             {children}
           </main>
         </div>
