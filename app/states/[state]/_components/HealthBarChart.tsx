@@ -33,18 +33,10 @@ export default function HealthBarChart({ data }: { data: State[] }) {
 
   return (
     <div>
-      {/* ---- County Selector ------------------------------------ */}
-      <div
-        style={{
-          marginBottom: 24,
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-        }}
-      >
+      <div className="mb-6 flex items-center gap-3">
         <label
           htmlFor="county-select"
-          style={{ fontSize: 13, fontWeight: 600, color: "#444" }}
+          className="text-[13px] font-semibold text-zinc-600"
         >
           View:
         </label>
@@ -52,15 +44,7 @@ export default function HealthBarChart({ data }: { data: State[] }) {
           id="county-select"
           value={selectedCounty}
           onChange={(e) => setSelectedCounty(e.target.value)}
-          style={{
-            padding: "6px 12px",
-            borderRadius: 6,
-            border: "1px solid #e0e0e0",
-            fontSize: 13,
-            color: "#1a1a1a",
-            background: "#fff",
-            cursor: "pointer",
-          }}
+          className="px-3 py-1.5 rounded-md border border-zinc-200 text-[13px] text-zinc-900 bg-white cursor-pointer"
         >
           {counties.map((county) => (
             <option key={county} value={county}>

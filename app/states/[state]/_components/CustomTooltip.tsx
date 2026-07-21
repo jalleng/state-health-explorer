@@ -12,22 +12,10 @@ export default function CustomTooltip(props: CustomTooltipProps) {
   const { active, payload, label, selectedCounty } = props;
   if (!active || !payload?.length) return null;
   return (
-    <div
-      style={{
-        background: "#fff",
-        border: "1px solid #e0e0e0",
-        borderRadius: 6,
-        padding: "10px 14px",
-        fontSize: 13,
-      }}
-    >
-      <div style={{ fontWeight: 700, marginBottom: 4, color: "#1a1a1a" }}>
-        {label}
-      </div>
-      <div style={{ color: "#1a3a5c" }}>
-        {payload[0].value}% crude prevalence
-      </div>
-      <div style={{ color: "#888", fontSize: 12, marginTop: 2 }}>
+    <div className="bg-white border border-zinc-200 rounded-md px-[14px] py-[10px] text-[13px]">
+      <div className="font-bold mb-1 text-zinc-900">{label}</div>
+      <div className="text-[#1a3a5c]">{payload[0].value}% crude prevalence</div>
+      <div className="text-zinc-400 text-xs mt-0.5">
         {selectedCounty === "All Counties"
           ? "Statewide average"
           : `${selectedCounty} County`}
