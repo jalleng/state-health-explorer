@@ -1,6 +1,7 @@
 // Add Utils here if needed in the future. For now, this file is empty.
 
-import { State, ChartRow } from "../types/state";
+import { State } from "@/app/types/state";
+import type { ChartRow } from "@/app/types/chart";
 
 export function aggregateByMeasure(data: State[]): ChartRow[] {
   const grouped = data.reduce(
@@ -16,8 +17,8 @@ export function aggregateByMeasure(data: State[]): ChartRow[] {
 
   // Convert to array Recharts can consume, sorted descending
   return Object.entries(grouped)
-    .map(([measure, { sum, count }]) => ({
-      measure,
+    .map(([name, { sum, count }]) => ({
+      name,
       value: parseFloat((sum / count).toFixed(1)),
     }))
     .sort((a, b) => b.value - a.value);

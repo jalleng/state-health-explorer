@@ -1,5 +1,5 @@
-import StateCard from "@/components/stateCard";
-import { StateBase } from "./types/state";
+import StateCard from "@/components/StateCard";
+import { StateBase } from "@/app/types/state";
 import { fetchListOfStates } from "@/app/lib/cdc";
 
 export default async function Page() {

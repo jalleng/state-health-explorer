@@ -1,18 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
 import { aggregateByMeasure } from "@/app/lib/utils";
-import CustomTooltip from "./CustomTooltip";
-import { State } from "../../../types/state";
+import { State } from "@/app/types/state";
+import BarChartComponent from "@/components/BarChartComponent";
 
 export default function HealthBarChart({ data }: { data: State[] }) {
   const counties = useMemo(() => {
@@ -62,41 +53,11 @@ export default function HealthBarChart({ data }: { data: State[] }) {
         </select>
       </div>
 
-      {/* ---- Bar Chart -------------------------------------- */}
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart
-          data={chartData}
-          margin={{ top: 10, right: 20, left: 0, bottom: 80 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-
-          <XAxis
-            dataKey="measure"
-            tick={{ fontSize: 12, fill: "#444" }}
-            angle={-35}
-            textAnchor="end"
-            interval={0}
-          />
-
-          <YAxis
-            tickFormatter={(v) => `${v}%`}
-            tick={{ fontSize: 12, fill: "#444" }}
-            domain={[0, "auto"]}
-          />
-
-          <Tooltip
-            content={(props) => (
-              <CustomTooltip
-                {...props}
-                bottomText={lowerText}
-                valueLabel={valueLabel}
-              />
-            )}
-          />
-
-          <Bar dataKey="value" fill="#1a3a5c" radius={[4, 4, 0, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
+      <BarChartComponent
+        chartData={chartData}
+        valueLabel={valueLabel}
+        bottomText={lowerText}
+      />
     </div>
   );
 }
