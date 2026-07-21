@@ -13,15 +13,12 @@ export default async function Page(props: {
   const stateName = data[0]?.statedesc ?? state;
 
   return (
-    <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 16px" }}>
-      {/* Page header */}
-      <div style={{ marginBottom: 32 }}>
-        <h1
-          style={{ fontSize: 28, fontWeight: 800, color: "#1a1a1a", margin: 0 }}
-        >
+    <div className="max-w-[900px] mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-[28px] font-extrabold text-zinc-900 m-0">
           {stateName}
         </h1>
-        <p style={{ fontSize: 14, color: "#666", marginTop: 8 }}>
+        <p className="text-sm text-zinc-500 mt-2">
           County-level crude prevalence. Select a county to compare against the
           statewide average.
         </p>
