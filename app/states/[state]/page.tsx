@@ -3,6 +3,8 @@ import HealthBarChart from "./_components/HealthBarChart";
 import { fetchStateHealthData } from "@/app/lib/cdc";
 import { State, StateAbbreviations } from "../../types/state";
 
+const SHOW_HEALTH_QUERY = process.env.SHOW_HEALTH_QUERY === "true"; // Only show when running locally. Backend is not deployed yet.
+
 export default async function Page(props: {
   params: Promise<{ state: StateAbbreviations }>;
 }) {
@@ -24,7 +26,7 @@ export default async function Page(props: {
           statewide average.
         </p>
       </div>
-      <HealthQuery />
+      {SHOW_HEALTH_QUERY && <HealthQuery />}
       <HealthBarChart data={data} />
     </div>
   );
