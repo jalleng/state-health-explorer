@@ -1,41 +1,46 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { QueryResponse } from "@/app/types/query";
+import { useState } from "react";
+import { useBoolean } from "@/hooks/useBoolean";
 
 export default function HealthQuery() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState<string | null>(null);
   const [sources, setSources] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, { setTrue: setLoadingTrue, setFalse: setLoadingFalse }] =
+    useBoolean(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!question.trim()) return;
 
-    setLoading(true);
+    setLoadingTrue();
     setAnswer(null);
     setSources([]);
     setError(null);
 
     try {
-      const res = await fetch("http://localhost:8000/query", {
+      const res = await fetch("/api/queries/health_explorer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question }),
       });
 
-      if (!res.ok) throw new Error("Request failed");
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
 
-      const data = await res.json();
+      const data = (await res.json()) as QueryResponse;
       setAnswer(data.answer);
       setSources(data.sources ?? []);
     } catch (err) {
       setError(
-        "Could not reach the health query service. Make sure the API is running.",
+        err instanceof Error
+          ? err.message
+          : "Could not reach the health query service.",
       );
     } finally {
-      setLoading(false);
+      setLoadingFalse();
     }
   }
 
@@ -78,9 +83,10 @@ export default function HealthQuery() {
             disabled={disableClearButton}
             aria-label="Clear input"
             className={`absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded text-lg leading-none transition-colors
-              ${disableClearButton
-                ? "text-zinc-300 cursor-not-allowed"
-                : "text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 cursor-pointer"
+              ${
+                disableClearButton
+                  ? "text-zinc-300 cursor-not-allowed"
+                  : "text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 cursor-pointer"
               }`}
           >
             ×
@@ -90,9 +96,10 @@ export default function HealthQuery() {
           type="submit"
           disabled={loading || !question.trim()}
           className={`px-5 py-2.5 rounded-md text-sm font-semibold text-white whitespace-nowrap transition-colors
-            ${loading || !question.trim()
-              ? "bg-zinc-300 cursor-not-allowed"
-              : "bg-[#1a3a5c] hover:bg-[#1a3a5c]/90 cursor-pointer"
+            ${
+              loading || !question.trim()
+                ? "bg-zinc-300 cursor-not-allowed"
+                : "bg-[#1a3a5c] hover:bg-[#1a3a5c]/90 cursor-pointer"
             }`}
         >
           {loading ? "Thinking..." : "Ask"}
@@ -121,7 +128,7 @@ export default function HealthQuery() {
               <div className="mt-2 flex flex-col gap-1">
                 {sources.map((s, i) => (
                   <div
-                    key={i}
+                    key={s}
                     className="text-xs text-zinc-500 px-[10px] py-1.5 bg-zinc-100 rounded"
                   >
                     {s}
