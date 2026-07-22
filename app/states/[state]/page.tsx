@@ -1,3 +1,4 @@
+import HealthQuery from "@/components/HealthQuery";
 import HealthBarChart from "./_components/HealthBarChart";
 import { fetchStateHealthData } from "@/app/lib/cdc";
 import { State, StateAbbreviations } from "../../types/state";
@@ -23,6 +24,7 @@ export default async function Page(props: {
           statewide average.
         </p>
       </div>
+      <HealthQuery />
       <HealthBarChart data={data} />
     </div>
   );
