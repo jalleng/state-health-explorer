@@ -53,7 +53,7 @@ export async function fetchStateHealthData(
   stateAbbr: StateAbbreviations,
 ): Promise<State[]> {
   const params = new URLSearchParams({
-    $where: `stateabbr='${stateAbbr}'`,
+    $where: `stateabbr='${stateAbbr}' AND data_value_type='Crude prevalence'`,
     $limit: "2000",
     $select:
       "stateabbr,statedesc,locationname,category,short_question_text,data_value,totalpopulation",
