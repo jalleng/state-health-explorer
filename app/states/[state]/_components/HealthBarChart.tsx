@@ -13,11 +13,10 @@ export default function HealthBarChart({ data }: { data: State[] }) {
 
   const [selectedCounty, setSelectedCounty] = useState("All Counties");
 
-  const lowerText = useMemo(() => {
-    return selectedCounty === "All Counties"
+  const lowerText =
+    selectedCounty === "All Counties"
       ? "Statewide average"
       : `${selectedCounty} County`;
-  }, [selectedCounty]);
 
   const categoryCharts = useMemo(() => {
     const records =
