@@ -16,7 +16,7 @@ export default async function Page(props: {
   const stateName = data[0]?.statedesc ?? state;
 
   return (
-    <div className="max-w-[900px] mx-auto px-4 py-8">
+    <div className="max-w-[1200px] mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-[28px] font-extrabold text-zinc-900 m-0">
           {stateName}

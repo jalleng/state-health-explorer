@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { aggregateByMeasure } from "@/app/lib/utils";
+import { aggregateByMeasure, groupByCategory } from "@/app/lib/utils";
 import { State } from "@/app/types/state";
 import BarChartComponent from "@/components/BarChartComponent";
 
@@ -19,13 +19,19 @@ export default function HealthBarChart({ data }: { data: State[] }) {
       : `${selectedCounty} County`;
   }, [selectedCounty]);
 
-  const chartData = useMemo(() => {
+  const categoryCharts = useMemo(() => {
     const records =
       selectedCounty === "All Counties"
         ? data
         : data.filter((d) => d.locationname === selectedCounty);
 
-    return aggregateByMeasure(records);
+    const byCategory = groupByCategory(records);
+    return Object.entries(byCategory)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([category, rows]) => ({
+        category,
+        chartData: aggregateByMeasure(rows),
+      }));
   }, [data, selectedCounty]);
 
   const valueLabel = "% crude prevalence";
@@ -53,11 +59,20 @@ export default function HealthBarChart({ data }: { data: State[] }) {
         </select>
       </div>
 
-      <BarChartComponent
-        chartData={chartData}
-        valueLabel={valueLabel}
-        bottomText={lowerText}
-      />
+      <div className="grid grid-cols-2 gap-6">
+        {categoryCharts.map(({ category, chartData }) => (
+          <div key={category}>
+            <h2 className="text-sm font-semibold text-zinc-700 mb-2">
+              {category}
+            </h2>
+            <BarChartComponent
+              chartData={chartData}
+              valueLabel={valueLabel}
+              bottomText={lowerText}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

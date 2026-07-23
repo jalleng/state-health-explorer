@@ -35,6 +35,7 @@ export default function BarChartComponent({
           angle={-35}
           textAnchor="end"
           interval={0}
+          tickFormatter={(v: string) => v.length > 12 ? v.slice(0, 12) + "…" : v}
         />
 
         <YAxis
