@@ -37,16 +37,7 @@ export async function fetchListOfStates(): Promise<StateBase[]> {
   }
 
   const raw: unknown = await res.json();
-  const data: StateBase[] = Array.isArray(raw) ? raw.filter(isStateBase) : [];
-  const states: StateBase[] = Array.from(
-    new Map(
-      data.map((s) => [
-        s.stateabbr,
-        { stateabbr: s.stateabbr, statedesc: s.statedesc },
-      ]),
-    ).values(),
-  );
-  return states;
+  return Array.isArray(raw) ? raw.filter(isStateBase) : [];
 }
 
 export async function fetchStateHealthData(

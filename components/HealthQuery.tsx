@@ -126,7 +126,7 @@ export default function HealthQuery() {
                 {sources.length} source{sources.length !== 1 ? "s" : ""} used
               </summary>
               <div className="mt-2 flex flex-col gap-1">
-                {sources.map((s, i) => (
+                {sources.map((s) => (
                   <div
                     key={s}
                     className="text-xs text-zinc-500 px-[10px] py-1.5 bg-zinc-100 rounded"
