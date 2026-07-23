@@ -24,7 +24,6 @@ export function aggregateByMeasure(data: State[]): ChartRow[] {
     {},
   );
 
-  // Convert to array Recharts can consume, sorted descending
   return Object.entries(grouped)
     .map(([name, { sum, count }]) => ({
       name,

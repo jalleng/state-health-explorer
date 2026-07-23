@@ -26,10 +26,12 @@ export default function HealthBarChart({ data }: { data: State[] }) {
         : data.filter((d) => d.locationname === selectedCounty);
 
     const byCategory = groupByCategory(records);
-    return Object.entries(byCategory).map(([category, rows]) => ({
-      category,
-      chartData: aggregateByMeasure(rows),
-    }));
+    return Object.entries(byCategory)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([category, rows]) => ({
+        category,
+        chartData: aggregateByMeasure(rows),
+      }));
   }, [data, selectedCounty]);
 
   const valueLabel = "% crude prevalence";
