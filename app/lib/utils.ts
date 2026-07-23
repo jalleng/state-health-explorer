@@ -1,7 +1,16 @@
-// Add Utils here if needed in the future. For now, this file is empty.
-
 import { State } from "@/app/types/state";
 import type { ChartRow } from "@/app/types/chart";
+
+export function groupByCategory(data: State[]): Record<string, State[]> {
+  return data.reduce(
+    (acc, row) => {
+      if (!acc[row.category]) acc[row.category] = [];
+      acc[row.category].push(row);
+      return acc;
+    },
+    {} as Record<string, State[]>,
+  );
+}
 
 export function aggregateByMeasure(data: State[]): ChartRow[] {
   const grouped = data.reduce(
