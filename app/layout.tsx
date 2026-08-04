@@ -3,6 +3,8 @@ import { inter } from "@/app/ui/fonts";
 import { Metadata } from "next";
 import Link from "next/link";
 
+const JALLENG_APP_LINK = process.env.JALLENG_APP_LINK ?? "";
+
 export const metadata: Metadata = {
   title: {
     template: "%s | State Health Explorer",
@@ -29,13 +31,16 @@ export default function RootLayout({
             <div className="text-white/50 text-[13px] ml-2">
               CDC PLACES Data 2023
             </div>
-            <div className="ml-auto text-white/40 text-[13px] italic">
+            <a
+              className="ml-auto text-white/40 text-[13px] italic"
+              href={JALLENG_APP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               A Jalleng App
-            </div>
+            </a>
           </nav>
-          <main className="max-w-[800px] mx-auto px-4 py-8">
-            {children}
-          </main>
+          <main className="max-w-[800px] mx-auto px-4 py-8">{children}</main>
         </div>
       </body>
     </html>
